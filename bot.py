@@ -24,7 +24,7 @@ SUPPORTED_FORMATS = {
     'jpg': ['pdf', 'png'],
     'jpeg': ['pdf', 'png'],
     'png': ['pdf', 'jpg'],
-    'csv': ['pdf']
+    'csv': ['pdf', 'xlsx']
 }
 
 # Import converters
@@ -41,9 +41,13 @@ def import_converter(from_format: str, to_format: str):
         elif from_format == 'docx' and to_format == 'pdf':
             from converters.docx_to_pdf import convert_docx_to_pdf
             return convert_docx_to_pdf
-        elif from_format == 'csv' and to_format == 'pdf':
-            from converters.csv_to_pdf import convert_csv_to_pdf
-            return convert_csv_to_pdf
+        elif from_format == 'csv':
+            if to_format == 'pdf':
+                from converters.csv_to_pdf import convert_csv_to_pdf
+                return convert_csv_to_pdf
+            elif to_format == 'xlsx':
+                from converters.csv_to_xlsx import convert_csv_to_xlsx
+                return convert_csv_to_xlsx
         return None
     except ImportError as e:
         logging.error(f"Import error in import_converter: {str(e)}")
@@ -57,6 +61,7 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
         'Supported conversions:\n'
         '📄 DOCX → PDF\n'
         '📊 CSV → PDF (Tables)\n'
+        '📊 CSV → XLSX (Excel)\n'
         '🖼️ Images (JPG/PNG) → PDF\n'
         '🔄 JPG ↔️ PNG\n\n'
         'Just send me a file and I\'ll show you the available conversion options!'
@@ -72,6 +77,7 @@ async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> No
         'Supported formats:\n'
         '📄 DOCX → PDF\n'
         '📊 CSV → PDF (Tables)\n'
+        '📊 CSV → XLSX (Excel)\n'
         '🖼️ Images (JPG/PNG) → PDF\n'
         '🔄 JPG ↔️ PNG\n\n'
         '❗ Maximum file size: 20MB\n'
@@ -135,9 +141,16 @@ async def handle_file(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int
                     KeyboardButton('🖼️ JPG')
                 ]
             ]
-        elif file_ext in ['docx', 'csv']:
+        elif file_ext == 'docx':
             keyboard = [
                 [KeyboardButton('📄 PDF')]
+            ]
+        elif file_ext == 'csv':
+            keyboard = [
+                [
+                    KeyboardButton('📄 PDF'),
+                    KeyboardButton('📊 XLSX')
+                ]
             ]
 
         reply_markup = ReplyKeyboardMarkup(keyboard, one_time_keyboard=True)
@@ -163,7 +176,7 @@ async def convert_file(update: Update, context: ContextTypes.DEFAULT_TYPE) -> in
     progress_message = None
     try:
         # Get the selected format (remove emoji and spaces)
-        selected_format = update.message.text.lower().replace('📄 ', '').replace('🖼️ ', '').replace('🔄 ', '')
+        selected_format = update.message.text.lower().replace('📄 ', '').replace('🖼️ ', '').replace('🔄 ', '').replace('📊 ', '')
         
         # Send initial progress message
         progress_message = await update.message.reply_text(
@@ -315,7 +328,7 @@ def main() -> None:
         states={
             FORMAT_SELECTION: [
                 MessageHandler(
-                    filters.Regex('^(📄 PDF|🖼️ JPG|🖼️ PNG)$'),
+                    filters.Regex('^(📄 PDF|🖼️ JPG|🖼️ PNG|📊 XLSX)$'),
                     convert_file
                 )
             ],

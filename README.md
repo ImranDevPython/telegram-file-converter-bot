@@ -5,6 +5,8 @@ A Telegram bot that can convert files between different formats.
 ## Supported Conversions
 
 - 📄 DOCX → PDF
+- 📊 CSV → PDF (Tables)
+- 📊 CSV → XLSX (Excel)
 - 🖼️ Images (JPG/PNG) → PDF
 - 🔄 JPG ↔️ PNG
 
@@ -40,13 +42,21 @@ python bot.py
 ## Features
 
 - Convert DOCX files to PDF
+- Convert CSV files to formatted PDF tables
+- Convert CSV files to formatted Excel spreadsheets
 - Convert images (JPG/PNG) to PDF
 - Convert between JPG and PNG formats
 - Progress updates during conversion
 - File size limit: 20MB
-- High-quality image conversion
+- High-quality conversion with formatting
 
 ## Version History
+
+- v1.1.0 - Added CSV conversions
+  - Added CSV to PDF with formatted tables
+  - Added CSV to XLSX with Excel formatting
+  - Improved error handling
+  - Added progress messages
 
 - v1.0.0 - Initial release
   - Basic file conversion functionality
