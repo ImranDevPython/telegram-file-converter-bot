@@ -24,7 +24,8 @@ SUPPORTED_FORMATS = {
     'jpg': ['pdf', 'png'],
     'jpeg': ['pdf', 'png'],
     'png': ['pdf', 'jpg'],
-    'csv': ['pdf', 'xlsx']
+    'csv': ['pdf', 'xlsx'],
+    'xlsx': ['csv']
 }
 
 # Import converters
@@ -48,6 +49,9 @@ def import_converter(from_format: str, to_format: str):
             elif to_format == 'xlsx':
                 from converters.csv_to_xlsx import convert_csv_to_xlsx
                 return convert_csv_to_xlsx
+        elif from_format == 'xlsx' and to_format == 'csv':
+            from converters.xlsx_to_csv import convert_xlsx_to_csv
+            return convert_xlsx_to_csv
         return None
     except ImportError as e:
         logging.error(f"Import error in import_converter: {str(e)}")
@@ -61,7 +65,7 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
         'Supported conversions:\n'
         '📄 DOCX → PDF\n'
         '📊 CSV → PDF (Tables)\n'
-        '📊 CSV → XLSX (Excel)\n'
+        '📊 CSV ↔️ XLSX\n'
         '🖼️ Images (JPG/PNG) → PDF\n'
         '🔄 JPG ↔️ PNG\n\n'
         'Just send me a file and I\'ll show you the available conversion options!'
@@ -77,7 +81,7 @@ async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> No
         'Supported formats:\n'
         '📄 DOCX → PDF\n'
         '📊 CSV → PDF (Tables)\n'
-        '📊 CSV → XLSX (Excel)\n'
+        '📊 CSV ↔️ XLSX\n'
         '🖼️ Images (JPG/PNG) → PDF\n'
         '🔄 JPG ↔️ PNG\n\n'
         '❗ Maximum file size: 20MB\n'
@@ -120,7 +124,7 @@ async def handle_file(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int
                 f'❌ Sorry, I don\'t support {file_ext.upper()} files.\n\n'
                 'I can handle these formats:\n'
                 '📄 DOCX\n'
-                '📊 CSV\n'
+                '📊 CSV, XLSX\n'
                 '🖼️ JPG, JPEG, PNG'
             )
             return ConversationHandler.END
@@ -151,6 +155,10 @@ async def handle_file(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int
                     KeyboardButton('📄 PDF'),
                     KeyboardButton('📊 XLSX')
                 ]
+            ]
+        elif file_ext == 'xlsx':
+            keyboard = [
+                [KeyboardButton('📊 CSV')]
             ]
 
         reply_markup = ReplyKeyboardMarkup(keyboard, one_time_keyboard=True)
@@ -328,7 +336,7 @@ def main() -> None:
         states={
             FORMAT_SELECTION: [
                 MessageHandler(
-                    filters.Regex('^(📄 PDF|🖼️ JPG|🖼️ PNG|📊 XLSX)$'),
+                    filters.Regex('^(📄 PDF|🖼️ JPG|🖼️ PNG|📊 XLSX|📊 CSV)$'),
                     convert_file
                 )
             ],
