@@ -23,7 +23,8 @@ SUPPORTED_FORMATS = {
     'docx': ['pdf'],
     'jpg': ['pdf', 'png'],
     'jpeg': ['pdf', 'png'],
-    'png': ['pdf', 'jpg']
+    'png': ['pdf', 'jpg'],
+    'csv': ['pdf']
 }
 
 # Import converters
@@ -40,6 +41,9 @@ def import_converter(from_format: str, to_format: str):
         elif from_format == 'docx' and to_format == 'pdf':
             from converters.docx_to_pdf import convert_docx_to_pdf
             return convert_docx_to_pdf
+        elif from_format == 'csv' and to_format == 'pdf':
+            from converters.csv_to_pdf import convert_csv_to_pdf
+            return convert_csv_to_pdf
         return None
     except ImportError as e:
         logging.error(f"Import error in import_converter: {str(e)}")
@@ -52,6 +56,7 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
         'I can help you convert files between different formats.\n\n'
         'Supported conversions:\n'
         '📄 DOCX → PDF\n'
+        '📊 CSV → PDF (Tables)\n'
         '🖼️ Images (JPG/PNG) → PDF\n'
         '🔄 JPG ↔️ PNG\n\n'
         'Just send me a file and I\'ll show you the available conversion options!'
@@ -66,6 +71,7 @@ async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> No
         '3️⃣ Wait for the converted file\n\n'
         'Supported formats:\n'
         '📄 DOCX → PDF\n'
+        '📊 CSV → PDF (Tables)\n'
         '🖼️ Images (JPG/PNG) → PDF\n'
         '🔄 JPG ↔️ PNG\n\n'
         '❗ Maximum file size: 20MB\n'
@@ -108,6 +114,7 @@ async def handle_file(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int
                 f'❌ Sorry, I don\'t support {file_ext.upper()} files.\n\n'
                 'I can handle these formats:\n'
                 '📄 DOCX\n'
+                '📊 CSV\n'
                 '🖼️ JPG, JPEG, PNG'
             )
             return ConversationHandler.END
@@ -128,7 +135,7 @@ async def handle_file(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int
                     KeyboardButton('🖼️ JPG')
                 ]
             ]
-        elif file_ext == 'docx':
+        elif file_ext in ['docx', 'csv']:
             keyboard = [
                 [KeyboardButton('📄 PDF')]
             ]

@@ -1,8 +1,10 @@
 # Python
 __pycache__/
 *.py[cod]
+*$py.class
 *.so
 .Python
+env/
 build/
 develop-eggs/
 dist/
@@ -20,20 +22,21 @@ wheels/
 *.egg
 
 # Virtual Environment
-.venv/
 venv/
+.venv/
+ENV/
 
-# Environment files
-.env
-.env.local
-
-# Temp files
-temp/
-*.tmp
-
-# Editor files
-.vscode/
+# IDE
 .idea/
+.vscode/
+*.swp
+*.swo
 
-# Logs
-*.log 
+# Project specific
+temp/
+.env
+*.log
+
+# OS specific
+.DS_Store
+Thumbs.db 

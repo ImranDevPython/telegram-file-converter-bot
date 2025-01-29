@@ -1,59 +1,63 @@
 # Telegram File Converter Bot
 
-A Telegram bot that converts files between various formats including PDF, DOCX, and images.
+A Telegram bot that can convert files between different formats.
 
-## Features
+## Supported Conversions
 
-- Convert PDF to Word (DOCX)
-- Convert images (JPG, PNG) to PDF
-- Convert Word (DOCX) to PDF
-- Error handling and logging
-- User-friendly interface
+- 📄 DOCX → PDF
+- 🖼️ Images (JPG/PNG) → PDF
+- 🔄 JPG ↔️ PNG
 
 ## Setup
 
-1. Create a virtual environment:
+1. Clone the repository
 ```bash
-python -m venv .venv
+git clone <your-repo-url>
+cd Telegram-file-converter-bot
 ```
 
-2. Activate the virtual environment:
+2. Create a virtual environment and activate it
 ```bash
-# Windows
-.venv\Scripts\activate
+python -m venv venv
+source venv/bin/activate  # On Windows: venv\Scripts\activate
 ```
 
-3. Install dependencies:
+3. Install dependencies
 ```bash
 pip install -r requirements.txt
 ```
 
-4. Create a `.env` file and add your Telegram Bot Token:
+4. Create a `.env` file with your bot token:
 ```
 BOT_TOKEN=your_bot_token_here
 ```
 
-5. Run the bot:
+5. Run the bot
 ```bash
 python bot.py
 ```
 
-## Supported Conversions
+## Features
 
-- PDF → DOCX
-- DOCX → PDF
-- JPG/PNG → PDF
+- Convert DOCX files to PDF
+- Convert images (JPG/PNG) to PDF
+- Convert between JPG and PNG formats
+- Progress updates during conversion
+- File size limit: 20MB
+- High-quality image conversion
 
-## Project Structure
+## Version History
 
-```
-file_converter_bot/
-├── bot.py                  # Main bot script
-├── converters/             # Conversion logic
-├── utils/                  # Utility functions
-├── requirements.txt        # Dependencies
-└── README.md              # Documentation
-```
+- v1.0.0 - Initial release
+  - Basic file conversion functionality
+  - Support for DOCX, PDF, JPG, and PNG formats
+  - Progress messages during conversion
+  - File size limits and error handling
 
-## Versioning
-This project uses [Semantic Versioning](https://semver.org/). Current version: `1.0.0`
+## Contributing
+
+Feel free to open issues or submit pull requests for any improvements.
+
+## License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
