@@ -14,7 +14,7 @@ SUPPORTED_FORMATS: Dict[str, List[str]] = {
     'jpg': ['pdf', 'png'],
     'jpeg': ['pdf', 'png'],
     'png': ['pdf', 'jpg'],
-    'csv': ['pdf', 'xlsx'],
+    'csv': ['xlsx', 'pdf'],
     'xlsx': ['csv']
 }
 

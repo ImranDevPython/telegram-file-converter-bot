@@ -41,16 +41,20 @@ def format_file_info(file_name: str, file_size: int, file_ext: str) -> str:
 
 def extract_format_from_button(button_text: str) -> str:
     """Extract format from button text."""
-    return (button_text.lower()
+    text = button_text.lower()
+    return (text
         .replace('📄 convert to ', '')
         .replace('🖼️ convert to ', '')
+        .replace('📊 convert to ', '')
         .replace(' convert to ', '')
         .replace(' 📱', '')
         .replace(' 🎨', '')
         .replace(' 📈', '')
         .replace(' 📉', '')
         .replace(' 📊', '')
-        .replace(' ↩️', ''))
+        .replace(' ↩️', '')
+        .replace('❌ cancel', 'cancel')
+        .strip())
 
 async def cleanup_files(*paths: str) -> None:
     """Clean up temporary files."""

@@ -1,0 +1,35 @@
+[33mcommit 84362c691c3dd17e228dc6986113c3b5bb5507af[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;33mtag: [m[1;33mv1.2.3[m[33m)[m
+Author: ImranDevPython <azabdu03@gmail.com>
+Date:   Thu Jan 30 10:52:48 2025 +0300
+
+    Code cleanup: Reorganize project structure and improve modularity
+
+[33mcommit 6a980826e28c477dfc28e6150b6bd4250aa080cf[m[33m ([m[1;33mtag: [m[1;33mv1.2.2[m[33m, [m[1;32mfeature/file-info-and-keyboard[m[33m)[m
+Author: ImranDevPython <azabdu03@gmail.com>
+Date:   Thu Jan 30 10:10:24 2025 +0300
+
+    Improve UX: Add detailed file info, better keyboard handling, and clearer progress messages
+
+[33mcommit 4c94ecd5f7cd0a251b495fe3317323f768107a34[m[33m ([m[1;32mfeature/ux-improvements[m[33m)[m
+Author: ImranDevPython <azabdu03@gmail.com>
+Date:   Wed Jan 29 11:17:46 2025 +0300
+
+    Add XLSX to CSV conversion feature
+
+[33mcommit e1225005a15e57061f4c0de7f876a8880bbec62d[m[33m ([m[1;33mtag: [m[1;33mv1.2.1[m[33m, [m[1;33mtag: [m[1;33mv1.2.0[m[33m, [m[1;32mfeature/xlsx-to-csv[m[33m, [m[1;32mfeature/csv-to-xlsx[m[33m)[m
+Author: ImranDevPython <azabdu03@gmail.com>
+Date:   Wed Jan 29 11:06:33 2025 +0300
+
+    feat: add CSV to XLSX conversion with Excel formatting
+
+[33mcommit 8a6c6f8e5757a81df08578020d0460a0efb3ab2b[m[33m ([m[1;33mtag: [m[1;33mv1.1.0[m[33m, [m[1;32mfeature/csv-to-pdf[m[33m)[m
+Author: ImranDevPython <azabdu03@gmail.com>
+Date:   Wed Jan 29 10:43:17 2025 +0300
+
+    feat: add CSV to PDF conversion with formatted tables
+
+[33mcommit a0c9313135156cd4f693b0658600b932c84ff906[m[33m ([m[1;33mtag: [m[1;33mv1.0.0[m[33m)[m
+Author: ImranDevPython <azabdu03@gmail.com>
+Date:   Wed Jan 29 08:59:49 2025 +0300
+
+    feat: initial project version 1.0.0

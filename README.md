@@ -18,42 +18,22 @@ A versatile Telegram bot that helps users convert files between different format
   - PNG → PDF
   - PNG → JPG
 
-## Technical Details
+## How to Use This Bot
 
-- Built with Python 3.x and python-telegram-bot
-- Modular architecture with separate configuration and utility modules
-- Robust error handling and user feedback
-- File size limits:
-  - Input files: 20MB
-  - Output files: 50MB
+### Option 1: Use the Existing Bot
+1. Open Telegram
+2. Search for `@QConvertBot`
+3. Start a chat with the bot
+4. Send `/start` to begin
+5. Send any supported file
+6. Choose the conversion format from the provided options
+7. Wait for your converted file
 
-## Project Structure
+### Option 2: Host Your Own Bot
 
-```
-telegram-file-converter-bot/
-├── bot.py                 # Main bot file
-├── config/               # Configuration modules
-│   ├── __init__.py
-│   ├── formats.py        # Format configurations
-│   ├── keyboards.py      # Keyboard layouts
-│   └── messages.py       # Message templates
-├── converters/           # File conversion modules
-│   ├── __init__.py
-│   ├── csv_to_pdf.py
-│   ├── csv_to_xlsx.py
-│   ├── docx_to_pdf.py
-│   ├── image_converter.py
-│   ├── image_to_pdf.py
-│   └── xlsx_to_csv.py
-├── utils/               # Utility functions
-│   └── __init__.py      # File handling and helpers
-├── requirements.txt     # Python dependencies
-└── README.md           # Project documentation
-```
+If you want to run your own instance of this bot:
 
-## Setup
-
-1. Clone the repository:
+1. Clone this repository:
    ```bash
    git clone https://github.com/ImranDevPython/telegram-file-converter-bot.git
    cd telegram-file-converter-bot
@@ -73,32 +53,45 @@ telegram-file-converter-bot/
    pip install -r requirements.txt
    ```
 
-4. Create a `.env` file in the project root and add your Telegram Bot Token:
+4. Create a new bot on Telegram:
+   - Open Telegram
+   - Search for `@BotFather`
+   - Send `/newbot`
+   - Follow the instructions to create your bot
+   - Copy the API token provided
+
+5. Create a `.env` file in the project root:
    ```
    BOT_TOKEN=your_bot_token_here
    ```
 
-5. Run the bot:
+6. Run the bot:
    ```bash
    python bot.py
    ```
 
-## Usage
+## File Size Limits
+- Maximum input file size: 20MB
+- Maximum output file size: 50MB
 
-1. Start a chat with the bot on Telegram
-2. Send `/start` to get an introduction
-3. Send a file you want to convert
-4. Choose the desired output format from the provided options
-5. Wait for the converted file
+## Supported File Formats
+- Documents: DOCX, PDF
+- Images: JPG/JPEG, PNG
+- Spreadsheets: CSV, XLSX
 
-## Error Handling
+## Troubleshooting
 
-The bot includes comprehensive error handling for:
-- File size limits
-- Unsupported formats
-- Conversion failures
-- Network issues
-- Invalid files
+Common issues and solutions:
+
+1. **File Too Large**: Try compressing your file before uploading
+2. **Conversion Failed**: Make sure your file is not corrupted and in the correct format
+3. **Bot Not Responding**: Check if the bot is running and has proper internet connection
+
+## Support
+
+If you encounter any issues:
+1. Check the [Issues](https://github.com/ImranDevPython/telegram-file-converter-bot/issues) section
+2. Create a new issue if your problem isn't already reported
 
 ## Contributing
 
@@ -111,6 +104,15 @@ The bot includes comprehensive error handling for:
 ## License
 
 This project is licensed under the MIT License - see the LICENSE file for details.
+
+
+## Technical Details
+
+- Built with Python 3.x and python-telegram-bot
+- Modular architecture with separate configuration and utility modules
+- Robust error handling and user feedback
+
+
 
 ## Acknowledgments
 
