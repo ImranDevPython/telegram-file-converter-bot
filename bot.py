@@ -1,7 +1,7 @@
 import logging
 import os
 from dotenv import load_dotenv
-from telegram import Update, ReplyKeyboardMarkup, KeyboardButton
+from telegram import Update, ReplyKeyboardMarkup, KeyboardButton, ReplyKeyboardRemove
 from telegram.ext import Application, CommandHandler, MessageHandler, filters, ContextTypes, ConversationHandler
 import tempfile
 
@@ -62,12 +62,18 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     await update.message.reply_text(
         'Welcome to the File Converter Bot! 👋\n\n'
         'I can help you convert files between different formats.\n\n'
-        'Supported conversions:\n'
-        '📄 DOCX → PDF\n'
-        '📊 CSV → PDF (Tables)\n'
-        '📊 CSV ↔️ XLSX\n'
-        '🖼️ Images (JPG/PNG) → PDF\n'
-        '🔄 JPG ↔️ PNG\n\n'
+        '📝 Available Conversions:\n\n'
+        '📄 Documents:\n'
+        '• DOCX → PDF\n\n'
+        '📊 Spreadsheets:\n'
+        '• CSV → PDF (Tables)\n'
+        '• CSV → XLSX (Excel)\n'
+        '• XLSX → CSV\n\n'
+        '🖼️ Images:\n'
+        '• JPG → PDF\n'
+        '• JPG → PNG\n'
+        '• PNG → PDF\n'
+        '• PNG → JPG\n\n'
         'Just send me a file and I\'ll show you the available conversion options!'
     )
 
@@ -78,12 +84,18 @@ async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> No
         '1️⃣ Send me a file\n'
         '2️⃣ Choose the format you want to convert to\n'
         '3️⃣ Wait for the converted file\n\n'
-        'Supported formats:\n'
-        '📄 DOCX → PDF\n'
-        '📊 CSV → PDF (Tables)\n'
-        '📊 CSV ↔️ XLSX\n'
-        '🖼️ Images (JPG/PNG) → PDF\n'
-        '🔄 JPG ↔️ PNG\n\n'
+        '📝 Supported Formats:\n\n'
+        '📄 Documents:\n'
+        '• DOCX → PDF\n\n'
+        '📊 Spreadsheets:\n'
+        '• CSV → PDF (Tables)\n'
+        '• CSV → XLSX (Excel)\n'
+        '• XLSX → CSV\n\n'
+        '🖼️ Images:\n'
+        '• JPG → PDF\n'
+        '• JPG → PNG\n'
+        '• PNG → PDF\n'
+        '• PNG → JPG\n\n'
         '❗ Maximum file size: 20MB\n'
         '❓ Need help? Contact @YourUsername'
     )
@@ -104,66 +116,87 @@ async def handle_file(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int
         # Get file info
         file = await context.bot.get_file(context.user_data['file_id'])
         file_size = file.file_size
+        file_ext = os.path.splitext(context.user_data['file_name'])[1][1:].lower()
+        if file_ext == 'jpeg':
+            file_ext = 'jpg'
+
+        # Show file information with keyboard removal first
+        size_mb = round(file_size / (1024 * 1024), 2)
+        await update.message.reply_text(
+            f'📁 File Information:\n'
+            f'📝 Name: {context.user_data["file_name"]}\n'
+            f'📊 Size: {size_mb} MB\n'
+            f'🏷️ Type: {file_ext.upper()}',
+            reply_markup=ReplyKeyboardRemove()
+        )
 
         # Check file size (20MB limit)
         if file_size > 20 * 1024 * 1024:
             await update.message.reply_text(
                 '❌ File is too large! Maximum size is 20MB.\n'
-                'Please compress your file and try again.'
+                'Please compress your file and try again.\n\n'
+                '💡 Tips:\n'
+                '• Compress the file\n'
+                '• Split it into smaller parts\n'
+                '• Use a different format'
             )
             return ConversationHandler.END
-
-        # Get file extension
-        file_ext = os.path.splitext(context.user_data['file_name'])[1][1:].lower()
-        if file_ext == 'jpeg':
-            file_ext = 'jpg'
 
         # Check if file format is supported
         if not context.user_data.get('is_photo', False) and file_ext not in SUPPORTED_FORMATS:
             await update.message.reply_text(
                 f'❌ Sorry, I don\'t support {file_ext.upper()} files.\n\n'
-                'I can handle these formats:\n'
-                '📄 DOCX\n'
-                '📊 CSV, XLSX\n'
-                '🖼️ JPG, JPEG, PNG'
+                '✅ I can handle these formats:\n'
+                '📄 Documents: DOCX\n'
+                '📊 Spreadsheets: CSV, XLSX\n'
+                '🖼️ Images: JPG, JPEG, PNG\n\n'
+                '💡 Tip: Make sure your file has the correct extension!'
             )
             return ConversationHandler.END
 
-        # Show conversion options
+        # Show conversion options with improved keyboard layout
         keyboard = []
         if context.user_data.get('is_photo', False) or file_ext in ['jpg', 'jpeg']:
             keyboard = [
-                [
-                    KeyboardButton('📄 PDF'),
-                    KeyboardButton('🖼️ PNG')
-                ]
+                [KeyboardButton('📄 Convert to PDF 📱')],
+                [KeyboardButton('🖼️ Convert to PNG 🎨')],
+                [KeyboardButton('❌ Cancel ↩️')]
             ]
         elif file_ext == 'png':
             keyboard = [
-                [
-                    KeyboardButton('📄 PDF'),
-                    KeyboardButton('🖼️ JPG')
-                ]
+                [KeyboardButton('📄 Convert to PDF 📱')],
+                [KeyboardButton('🖼️ Convert to JPG 🎨')],
+                [KeyboardButton('❌ Cancel ↩️')]
             ]
         elif file_ext == 'docx':
             keyboard = [
-                [KeyboardButton('📄 PDF')]
+                [KeyboardButton('📄 Convert to PDF 📱')],
+                [KeyboardButton('❌ Cancel ↩️')]
             ]
         elif file_ext == 'csv':
             keyboard = [
-                [
-                    KeyboardButton('📄 PDF'),
-                    KeyboardButton('📊 XLSX')
-                ]
+                [KeyboardButton('📄 Convert to PDF 📊')],
+                [KeyboardButton('📊 Convert to XLSX 📈')],
+                [KeyboardButton('❌ Cancel ↩️')]
             ]
         elif file_ext == 'xlsx':
             keyboard = [
-                [KeyboardButton('📊 CSV')]
+                [KeyboardButton('📊 Convert to CSV 📉')],
+                [KeyboardButton('❌ Cancel ↩️')]
             ]
 
-        reply_markup = ReplyKeyboardMarkup(keyboard, one_time_keyboard=True)
+        # Create keyboard markup with mobile-friendly settings
+        reply_markup = ReplyKeyboardMarkup(
+            keyboard,
+            resize_keyboard=True,
+            one_time_keyboard=False,  # Keep keyboard visible
+            selective=True  # Show keyboard only to the user who triggered the command
+        )
+
+        # Show the keyboard with instructions in a single message
         await update.message.reply_text(
-            '✨ Great! Now choose the format you want to convert to:',
+            '✨ Choose your conversion format:\n'
+            'Tap the grid icon 🔲 below',
             reply_markup=reply_markup
         )
 
@@ -173,7 +206,11 @@ async def handle_file(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int
         logging.error(f"Error in handle_file: {str(e)}")
         await update.message.reply_text(
             '❌ Sorry, something went wrong while processing your file.\n'
-            'Please try again or contact support if the problem persists.'
+            'Please try again or contact support if the problem persists.\n\n'
+            '💡 Make sure:\n'
+            '• The file isn\'t corrupted\n'
+            '• The file extension matches its content\n'
+            '• You have a stable internet connection'
         )
         return ConversationHandler.END
 
@@ -183,13 +220,32 @@ async def convert_file(update: Update, context: ContextTypes.DEFAULT_TYPE) -> in
     input_path = None
     progress_message = None
     try:
-        # Get the selected format (remove emoji and spaces)
-        selected_format = update.message.text.lower().replace('📄 ', '').replace('🖼️ ', '').replace('🔄 ', '').replace('📊 ', '')
+        # Get the selected format (remove emoji and text)
+        selected_format = update.message.text.lower()
+        selected_format = selected_format.replace('📄 convert to ', '')
+        selected_format = selected_format.replace('🖼️ convert to ', '')
+        selected_format = selected_format.replace(' convert to ', '')
+        selected_format = selected_format.replace(' 📱', '')
+        selected_format = selected_format.replace(' 🎨', '')
+        selected_format = selected_format.replace(' 📈', '')
+        selected_format = selected_format.replace(' 📉', '')
+        selected_format = selected_format.replace(' 📊', '')
+        selected_format = selected_format.replace(' ↩️', '')
+        
+        # Check if user wants to cancel
+        if selected_format.lower() == 'cancel':
+            # Use ReplyKeyboardRemove to hide the keyboard
+            await update.message.reply_text(
+                '❌ Operation cancelled.\n'
+                'Send me a new file when you\'re ready!',
+                reply_markup=ReplyKeyboardRemove()
+            )
+            return ConversationHandler.END
         
         # Send initial progress message
         progress_message = await update.message.reply_text(
-            '🔄 Starting conversion...\n'
-            'This might take a moment, please wait.'
+            '📥 Downloading file...\n'
+            'Please wait.'
         )
         
         # Download the file
@@ -199,25 +255,20 @@ async def convert_file(update: Update, context: ContextTypes.DEFAULT_TYPE) -> in
         temp_dir = os.path.join(os.getcwd(), 'temp')
         os.makedirs(temp_dir, exist_ok=True)
         
-        # Update progress
-        await progress_message.edit_text(
-            '📥 Downloading file...\n'
-            'Please wait.'
-        )
-        
         # Download to temp file with timeout
         input_path = os.path.join(temp_dir, context.user_data['file_name'])
         await file.download_to_drive(input_path)
         
-        # Update progress
+        # Update progress for conversion
         await progress_message.edit_text(
             '🔄 Converting your file...\n'
             'This might take a moment, please wait.'
         )
         
         try:
-            # Get input format
+            # Get input format and original filename without extension
             input_format = os.path.splitext(context.user_data['file_name'])[1][1:].lower()
+            original_filename = os.path.splitext(context.user_data['file_name'])[0]
             if input_format == 'jpeg':
                 input_format = 'jpg'
             
@@ -248,7 +299,7 @@ async def convert_file(update: Update, context: ContextTypes.DEFAULT_TYPE) -> in
                 )
                 return ConversationHandler.END
             
-            # Update progress
+            # Update progress for sending
             await progress_message.edit_text(
                 '📤 Sending converted file...\n'
                 'Almost done!'
@@ -257,9 +308,11 @@ async def convert_file(update: Update, context: ContextTypes.DEFAULT_TYPE) -> in
             # Send the converted file with appropriate timeouts
             try:
                 with open(output_path, 'rb') as f:
+                    # Use original filename with new extension
+                    new_filename = f"{original_filename}.{selected_format.lower()}"
                     await update.message.reply_document(
                         document=f,
-                        filename=f"converted.{selected_format.lower()}",
+                        filename=new_filename,
                         caption='✅ Here\'s your converted file!',
                         read_timeout=120,  # 2 minutes
                         write_timeout=120,  # 2 minutes
@@ -269,6 +322,12 @@ async def convert_file(update: Update, context: ContextTypes.DEFAULT_TYPE) -> in
                 
                 # Delete progress message
                 await progress_message.delete()
+                
+                # Simple completion message
+                await update.message.reply_text(
+                    '✨ Send me another file to convert!',
+                    reply_markup=ReplyKeyboardRemove()
+                )
                 
             except Exception as e:
                 if "Request Entity Too Large" in str(e):
@@ -336,12 +395,12 @@ def main() -> None:
         states={
             FORMAT_SELECTION: [
                 MessageHandler(
-                    filters.Regex('^(📄 PDF|🖼️ JPG|🖼️ PNG|📊 XLSX|📊 CSV)$'),
+                    filters.Regex('^(📄 Convert to PDF 📱|📄 Convert to PDF 📊|🖼️ Convert to JPG 🎨|🖼️ Convert to PNG 🎨|📊 Convert to XLSX 📈|📊 Convert to CSV 📉|❌ Cancel ↩️|Convert another file 📤)$'),
                     convert_file
                 )
             ],
         },
-        fallbacks=[CommandHandler('cancel', lambda u, c: ConversationHandler.END)],
+        fallbacks=[],
     )
 
     # Add handlers
