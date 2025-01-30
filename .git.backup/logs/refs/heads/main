@@ -1,8 +1,0 @@
-0000000000000000000000000000000000000000 a0c9313135156cd4f693b0658600b932c84ff906 ImranDevPython <azabdu03@gmail.com> 1738130389 +0300	commit (initial): feat: initial project version 1.0.0
-a0c9313135156cd4f693b0658600b932c84ff906 8a6c6f8e5757a81df08578020d0460a0efb3ab2b ImranDevPython <azabdu03@gmail.com> 1738136620 +0300	merge feature/csv-to-pdf: Fast-forward
-8a6c6f8e5757a81df08578020d0460a0efb3ab2b e1225005a15e57061f4c0de7f876a8880bbec62d ImranDevPython <azabdu03@gmail.com> 1738138012 +0300	merge feature/csv-to-xlsx: Fast-forward
-e1225005a15e57061f4c0de7f876a8880bbec62d 4c94ecd5f7cd0a251b495fe3317323f768107a34 ImranDevPython <azabdu03@gmail.com> 1738138666 +0300	commit: Add XLSX to CSV conversion feature
-4c94ecd5f7cd0a251b495fe3317323f768107a34 6a980826e28c477dfc28e6150b6bd4250aa080cf ImranDevPython <azabdu03@gmail.com> 1738221044 +0300	merge feature/file-info-and-keyboard: Fast-forward
-6a980826e28c477dfc28e6150b6bd4250aa080cf 84362c691c3dd17e228dc6986113c3b5bb5507af ImranDevPython <azabdu03@gmail.com> 1738223592 +0300	merge feature/code-cleanup: Fast-forward
-84362c691c3dd17e228dc6986113c3b5bb5507af 5d74172c40e05972ebca3c620ac975a0e33f97f9 ImranDevPython <azabdu03@gmail.com> 1738244328 +0300	commit: Fix: CSV/XLSX conversion and keyboard handling, update README
-5d74172c40e05972ebca3c620ac975a0e33f97f9 81cff6da70c2b8f6b4f96d211d88ffb01f5c6f3f ImranDevPython <azabdu03@gmail.com> 1738244350 +0300	commit: Remove accidental file
