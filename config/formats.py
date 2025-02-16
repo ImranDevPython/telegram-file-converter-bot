@@ -10,7 +10,6 @@ ConverterFunction = Callable[[str, Optional[str]], str]
 
 # Supported formats
 SUPPORTED_FORMATS: Dict[str, List[str]] = {
-    'docx': ['pdf'],
     'jpg': ['pdf', 'png'],
     'jpeg': ['pdf', 'png'],
     'png': ['pdf', 'jpg'],
@@ -28,9 +27,6 @@ def import_converter(from_format: str, to_format: str) -> Optional[ConverterFunc
             elif to_format in ['jpg', 'png']:
                 from converters.image_converter import convert_image
                 return convert_image
-        elif from_format == 'docx' and to_format == 'pdf':
-            from converters.docx_to_pdf import convert_docx_to_pdf
-            return convert_docx_to_pdf
         elif from_format == 'csv':
             if to_format == 'pdf':
                 from converters.csv_to_pdf import convert_csv_to_pdf

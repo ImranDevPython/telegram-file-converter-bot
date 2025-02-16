@@ -4,9 +4,6 @@ A versatile Telegram bot that helps users convert files between different format
 
 ## Features
 
-- 📄 **Document Conversion**
-  - DOCX → PDF
-
 - 📊 **Spreadsheet Conversion**
   - CSV → PDF (Tables)
   - CSV → XLSX (Excel)

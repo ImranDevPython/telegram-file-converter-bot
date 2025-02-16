@@ -16,9 +16,6 @@ KEYBOARD_LAYOUTS = {
         [KeyboardButton('📄 Convert to PDF 📱')],
         [KeyboardButton('🖼️ Convert to JPG 🎨')]
     ],
-    'docx': [
-        [KeyboardButton('📄 Convert to PDF 📱')]
-    ],
     'csv': [
         [KeyboardButton('📄 Convert to PDF 📊')],
         [KeyboardButton('📊 Convert to XLSX 📈')]

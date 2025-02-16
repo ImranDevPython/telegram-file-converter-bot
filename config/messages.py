@@ -5,8 +5,6 @@ MESSAGES = {
         'Welcome to the File Converter Bot! 👋\n\n'
         'I can help you convert files between different formats.\n\n'
         '📝 Available Conversions:\n\n'
-        '📄 Documents:\n'
-        '• DOCX → PDF\n\n'
         '📊 Spreadsheets:\n'
         '• CSV → PDF (Tables)\n'
         '• CSV → XLSX (Excel)\n'
@@ -24,8 +22,6 @@ MESSAGES = {
         '2️⃣ Choose the format you want to convert to\n'
         '3️⃣ Wait for the converted file\n\n'
         '📝 Supported Formats:\n\n'
-        '📄 Documents:\n'
-        '• DOCX → PDF\n\n'
         '📊 Spreadsheets:\n'
         '• CSV → PDF (Tables)\n'
         '• CSV → XLSX (Excel)\n'
@@ -48,7 +44,6 @@ MESSAGES = {
     ),
     'unsupported_format': (
         '✅ I can handle these formats:\n'
-        '📄 Documents: DOCX\n'
         '📊 Spreadsheets: CSV, XLSX\n'
         '🖼️ Images: JPG, JPEG, PNG\n\n'
         '💡 Tip: Make sure your file has the correct extension!'
